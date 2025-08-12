@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import profileImage from '../assets/Bruno-perfil.png';
+import profileImage from '../assets/bruno-perfil.png';
 
 const About = () => {
   return (
