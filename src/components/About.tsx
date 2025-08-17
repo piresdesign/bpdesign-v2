@@ -54,7 +54,7 @@ const About = () => {
               <div className="flex flex-wrap gap-3">
                 {[
                   'Product Design', 'UX/UI Design', 'Product Strategy', 'Product Discovery',
-                  'Figma', 'UX Research', 'Design Thinking', 'Agile/Scrum'
+                  'Figma/FigJam', 'UX Research', 'Design Thinking', 'Agile/Scrum', 'HTML e CSS', 'Comunicação e Escrita'
                 ].map((skill) => (
                   <span 
                     key={skill}
