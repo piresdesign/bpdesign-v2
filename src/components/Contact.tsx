@@ -28,7 +28,7 @@ const Contact = () => {
 
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Estou sempre aberto para discutir novos projetos, oportunidades de colaboração 
+                Estou aberto para discutir novos projetos, oportunidades de colaboração 
                 ou simplesmente trocar ideias sobre design e tecnologia.
               </p>
               

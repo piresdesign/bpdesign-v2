@@ -13,25 +13,25 @@ const About = () => {
                 Sobre <span className="text-primary">Mim</span>
               </h2>
               <p className="text-xl text-muted-foreground">
-                Product Designer apaixonado por criar experiências digitais significativas
+                Product Designer apaixonado por criar experiências digitais significativas.
               </p>
             </div>
 
             <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
               <p>
-                Com mais de 4 anos de experiência em Design de Produto e UX/UI, sou especializado em 
+                Com mais de 5 anos de experiência em Design de Produto e UX/UI, sou especializado em 
                 transformar ideias complexas em soluções digitais intuitivas e impactantes.
               </p>
               
               <p>
-                Formado em Design de Games pela Universidade Anhembi Morumbi, me aprofundei em áreas relacionadas ao design de experiência, 
-                como Arquitetura da Informação, Pesquisa com Usuários, Design Thinking, Prototipação, Design de Interação, Testes com Usuário e Acessibilidade. 
-                Essas disciplinas me ajudaram a desenvolver um olhar crítico para criar soluções digitais intuitivas, funcionais e centradas no usuário e que também geram valor real para os negócios.
+                Product Designer com atuação estratégica em produtos digitais, conectando experiência do usuário, objetivos de negócio e 
+                soluções orientadas por dados e inteligência artificial. Atuo na transformação de problemas complexos em experiências claras, 
+                eficientes e com impacto mensurável para usuários e negócios.
               </p>
 
               <p>
-                Atualmente escrevo artigos para a UX Collective BR, onde compartilho minhas experiências e abordagens. 
-                Também sigo me especializando em cursos de produto na PM3.
+                Me especializo através de cursos de Produto na PM3 e compartilho aprendizados por meio de artigos sobre UX, Product Design e 
+                aplicações práticas de IA, com foco em aspectos cognitivos e emocionais da experiência, incluindo publicações na UX Collective BR.
               </p>
               <p><a 
             href="https://drive.google.com/file/d/19Hl05mimD66KaTuQhWZgUYfnXlcFS1TU/view?usp=sharing" 
@@ -85,7 +85,7 @@ const About = () => {
             {/* Stats or Achievements */}
             <div className="grid grid-cols-2 gap-4 mt-8">
               <div className="text-center p-4 bg-card rounded-lg shadow-soft">
-                <div className="text-2xl font-bold text-primary">4+</div>
+                <div className="text-2xl font-bold text-primary">5+</div>
                 <div className="text-sm text-muted-foreground">Anos de Experiência</div>
               </div>
 
@@ -95,7 +95,7 @@ const About = () => {
               </div>
 
               <div className="text-center p-4 bg-card rounded-lg shadow-soft">
-                <div className="text-2xl font-bold text-primary">5+</div>
+                <div className="text-2xl font-bold text-primary">8</div>
                 <div className="text-sm text-muted-foreground">Artigos Publicados</div>
               </div>
 
