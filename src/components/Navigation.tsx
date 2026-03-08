@@ -24,25 +24,35 @@ function Navigation() {
   // Active section tracker — só ativa se os ids existirem na página
   useEffect(() => {
     const onScroll = () => {
-      const offsets = navLinks.map(({ id }) => {
-        const el = document.getElementById(id);
-        if (!el) return { id, top: Infinity };
-        return { id, top: Math.abs(el.getBoundingClientRect().top - 80) };
-      });
-      const valid = offsets.filter(o => o.top !== Infinity);
-      if (valid.length === 0) return;
-      const closest = valid.reduce((a, b) => (a.top < b.top ? a : b));
-      setActive(closest.id);
-    };
+  const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 100;
+  if (nearBottom) {
+    setActive("contact");
+    return;
+  }
+  const offsets = navLinks.map(({ id }) => {
+    const el = document.getElementById(id);
+    if (!el) return { id, top: Infinity };
+    return { id, top: Math.abs(el.getBoundingClientRect().top - 80) };
+  });
+  const valid = offsets.filter(o => o.top !== Infinity);
+  if (valid.length === 0) return;
+  const closest = valid.reduce((a, b) => (a.top < b.top ? a : b));
+  setActive(closest.id);
+};
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false);
-  };
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth" });
+  } else {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }
+  setMenuOpen(false);
+};
 
   return (
     <nav
