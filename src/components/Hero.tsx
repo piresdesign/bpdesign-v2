@@ -24,7 +24,7 @@ const Hero = () => {
         <div className="absolute top-32 right-1/3 w-1.5 h-1.5 rounded-full bg-primary/20" />
       </div>
 
-      <div className="container mx-auto px-6 py-10 relative z-10">
+      <div className="container mx-auto px-6 pt-28 pb-10 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
           {/* Left — text content */}
@@ -80,14 +80,14 @@ const Hero = () => {
         </div>
 
         {/* Scroll indicator */}
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-80 transition-opacity"
-          onClick={() => scrollToSection('about')}
-        >
-          <span className="text-xs tracking-widest uppercase text-muted-foreground">Role</span>
-          <ArrowDown className="w-4 h-4 text-muted-foreground animate-bounce" />
-        </div>
-      </div>
+<div
+  className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 cursor-pointer opacity-50 hover:opacity-80 transition-opacity"
+  onClick={() => scrollToSection('about')}
+>
+  <span className="text-xs tracking-widest uppercase text-muted-foreground">Role</span>
+  <ArrowDown className="w-4 h-4 text-muted-foreground animate-bounce" />
+</div>
+</div>
     </section>
   );
 };
