@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import profileImage from '../assets/bruno-perfil.png';
+import profileImage from '../assets/bruno-perfil.webp';
 
 const About = () => {
   return (
@@ -77,6 +77,7 @@ const About = () => {
                 src={profileImage}
                 alt="Bruno Pires"
                 className="w-72 h-72 rounded-2xl mx-auto object-cover shadow-card"
+                loading="lazy"
               />
               <div className="absolute -top-3 -right-3 w-7 h-7 bg-primary rounded-full" />
               <div className="absolute -bottom-3 -left-3 w-5 h-5 bg-accent rounded-full" />

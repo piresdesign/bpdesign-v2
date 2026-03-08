@@ -20,18 +20,30 @@ const portfolioItems = [
 ];
 
 const AUTOPLAY_INTERVAL = 3500;
-const VISIBLE_CARDS = 3;
+
+const getVisibleCards = () => {
+  if (typeof window === "undefined") return 3;
+  if (window.innerWidth < 640) return 1;
+  if (window.innerWidth < 1024) return 2;
+  return 3;
+};
 
 const ProjectsAndArticles = () => {
   const [filter, setFilter] = useState<"Todos" | "Artigo" | "Projeto">("Todos");
-const [visible, setVisible] = useState(true);
-const [current, setCurrent] = useState(0);
-const [paused, setPaused] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [visibleCards, setVisibleCards] = useState(getVisibleCards());
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const onResize = () => setVisibleCards(getVisibleCards());
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const filtered = filter === "Todos" ? portfolioItems : portfolioItems.filter(i => i.type === filter);
   const total = filtered.length;
-  const maxIndex = Math.max(0, total - VISIBLE_CARDS);
+  const maxIndex = Math.max(0, total - visibleCards);
 
   const next = useCallback(() => {
     setCurrent(c => (c >= maxIndex ? 0 : c + 1));
@@ -39,14 +51,7 @@ const [paused, setPaused] = useState(false);
 
   const prev = () => setCurrent(c => (c <= 0 ? maxIndex : c - 1));
 
-  useEffect(() => {
-  setVisible(false);
-  const t = setTimeout(() => {
-    setCurrent(0);
-    setVisible(true);
-  }, 200);
-  return () => clearTimeout(t);
-}, [filter]);
+  useEffect(() => { setCurrent(0); }, [filter]);
 
   useEffect(() => {
     if (paused) return;
@@ -61,6 +66,11 @@ const [paused, setPaused] = useState(false);
   const totalArticles = portfolioItems.filter(i => i.type === "Artigo").length;
   const totalProjects = portfolioItems.filter(i => i.type === "Projeto").length;
 
+  const cardWidth =
+    visibleCards === 1 ? "w-full" :
+    visibleCards === 2 ? "w-[calc(50%-12px)]" :
+    "w-[calc(33.333%-16px)]";
+
   return (
     <section id="projects" className="py-20 bg-subtle-gradient scroll-section">
       <div className="container mx-auto px-6">
@@ -70,7 +80,7 @@ const [paused, setPaused] = useState(false);
           <h2 className="text-4xl lg:text-5xl font-bold text-foreground">
             Projetos & <span className="text-primary">Artigos</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2x2">
+          <p className="text-xl text-muted-foreground">
             Uma coleção dos meus trabalhos, estudos e reflexões sobre design de produto.
           </p>
         </div>
@@ -85,7 +95,7 @@ const [paused, setPaused] = useState(false);
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/20 lg:block hidden" />
                 </div>
                 <div className="p-8 lg:p-10 flex flex-col justify-center space-y-5">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full uppercase tracking-wider">Case em destaque</span>
                     <span className="text-xs text-muted-foreground">9 meses · B2B SaaS · Logística</span>
                   </div>
@@ -108,31 +118,30 @@ const [paused, setPaused] = useState(false);
         </div>
 
         {/* Filter */}
-<div className="flex mb-10">
-  <div className="flex border-b border-border">
-    {([["Todos", totalItems], ["Artigo", totalArticles], ["Projeto", totalProjects]] as const).map(([label, count]) => {
-      const active = filter === label;
-      const displayLabel = label === "Artigo" ? "Artigos" : label === "Projeto" ? "Projetos" : label;
-      return (
-        <button
-          key={label}
-          onClick={() => setFilter(label as "Todos" | "Artigo" | "Projeto")}
-          className={`relative px-6 py-3 text-sm font-medium transition-all duration-300
-            ${active ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
-        >
-          {displayLabel}
-          <span className={`ml-1.5 text-xs transition-all duration-300 ${active ? "opacity-100" : "opacity-50"}`}>
-            {count}
-          </span>
-          <span
-            className={`absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full transition-all duration-300 ${active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"}`}
-            style={{ transformOrigin: "left" }}
-          />
-        </button>
-      );
-    })}
-  </div>
-</div>
+        <div className="flex mb-10">
+          <div className="flex border-b border-border">
+            {([["Todos", totalItems], ["Artigo", totalArticles], ["Projeto", totalProjects]] as const).map(([label, count]) => {
+              const active = filter === label;
+              const displayLabel = label === "Artigo" ? "Artigos" : label === "Projeto" ? "Projetos" : label;
+              return (
+                <button
+                  key={label}
+                  onClick={() => setFilter(label as "Todos" | "Artigo" | "Projeto")}
+                  className={`relative px-6 py-3 text-sm font-medium transition-all duration-300 ${active ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                >
+                  {displayLabel}
+                  <span className={`ml-1.5 text-xs transition-all duration-300 ${active ? "opacity-100" : "opacity-50"}`}>
+                    {count}
+                  </span>
+                  <span
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full transition-all duration-300 ${active ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"}`}
+                    style={{ transformOrigin: "left" }}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Carousel */}
         <div
@@ -143,12 +152,12 @@ const [paused, setPaused] = useState(false);
           <div className="overflow-hidden">
             <div
               className="flex gap-6 transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(calc(-${current * (100 / VISIBLE_CARDS)}% - ${current * (24 / VISIBLE_CARDS)}px))` }}
+              style={{ transform: `translateX(calc(-${current * (100 / visibleCards)}% - ${current * (24 / visibleCards)}px))` }}
             >
               {filtered.map((item, index) => (
                 <div
                   key={index}
-                  className="flex-none w-[calc(33.333%-16px)] flex flex-col bg-card border border-border rounded-2xl overflow-hidden shadow-soft hover:border-primary/20 hover:shadow-card transition-all duration-300 group"
+                  className={`flex-none ${cardWidth} flex flex-col bg-card border border-border rounded-2xl overflow-hidden shadow-soft hover:border-primary/20 hover:shadow-card transition-all duration-300 group`}
                 >
                   <div className="relative h-44 overflow-hidden">
                     <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -159,19 +168,19 @@ const [paused, setPaused] = useState(false);
                     </div>
                   </div>
                   <div className="p-5 flex flex-col flex-1 gap-3">
-  <div className="flex items-center justify-between">
-    <span className="text-xs text-muted-foreground">{formatDate(item.date)}</span>
-    <span className="text-xs text-primary font-medium">{item.category}</span>
-  </div>
-  <h3 className="text-sm font-semibold text-foreground leading-snug line-clamp-2">{item.title}</h3>
-  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">{item.description}</p>
-  <a href={item.link} target="_blank" rel="noopener noreferrer">
-    <Button variant="secondary" size="sm" className="w-full gap-2">
-      <ExternalLink className="w-3.5 h-3.5" />
-      Ver {item.type}
-    </Button>
-  </a>
-</div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-muted-foreground">{formatDate(item.date)}</span>
+                      <span className="text-xs text-primary font-medium">{item.category}</span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-foreground leading-snug line-clamp-2 min-h-[2.5rem]">{item.title}</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2 flex-1">{item.description}</p>
+                    <a href={item.link} target="_blank" rel="noopener noreferrer">
+                      <Button variant="secondary" size="sm" className="w-full gap-2">
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Ver {item.type}
+                      </Button>
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>
@@ -205,7 +214,7 @@ const [paused, setPaused] = useState(false);
 
         {/* Counter */}
         <p className="text-center text-sm text-muted-foreground mt-4">
-          {current + 1}–{Math.min(current + VISIBLE_CARDS, total)} de {total} itens
+          {visibleCards === 1 ? `${current + 1} de ${total}` : `${current + 1}–${Math.min(current + visibleCards, total)} de ${total} itens`}
         </p>
 
       </div>
